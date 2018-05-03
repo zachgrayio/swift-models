@@ -18,7 +18,7 @@ import TensorFlow
 public func readMnist(
   imagesFile: String, labelsFile: String
 ) -> (Tensor<Float>, Tensor<Int32>) {
-  print("Reading data.")
+  print("MNIST: Reading data.")
   let imageData =
     try! Data(contentsOf: URL(fileURLWithPath: imagesFile)).dropFirst(16)
   let labelData =
@@ -34,20 +34,17 @@ public func readMnist(
   return (imagesTensor.toDevice(), labelsTensor.toDevice())
 }
 
-func main() {
+func runMnist() {
   // Get script directory. This is necessary for MNIST.swift to work when
   // invoked from any directory.
   let currentDirectory =
     URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-  let currentScriptPath =
-    URL(fileURLWithPath: CommandLine.arguments[0], relativeTo: currentDirectory)
-  let scriptDirectory = currentScriptPath.appendingPathComponent("..")
 
   // Get training data.
   let imagesFile =
-    scriptDirectory.appendingPathComponent("train-images-idx3-ubyte").path
+    currentDirectory.appendingPathComponent("train-images-idx3-ubyte").path
   let labelsFile =
-    scriptDirectory.appendingPathComponent("train-labels-idx1-ubyte").path
+    currentDirectory.appendingPathComponent("train-labels-idx1-ubyte").path
   let (images, numericLabels) = readMnist(imagesFile: imagesFile,
                                           labelsFile: labelsFile)
   let labels = Tensor<Float>(oneHotAtIndices: numericLabels, depth: 10)
@@ -96,7 +93,5 @@ func main() {
   } while i < iterationCount
 
   // Print loss.
-  print("Loss: \(loss)")
+  print("MNIST: Loss: \(loss)")
 }
-
-main()
