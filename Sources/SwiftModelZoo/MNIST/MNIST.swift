@@ -18,7 +18,7 @@ import TensorFlow
 public enum Mnist {}
 
 extension Mnist {
-    public func runMnist(imagesFileName: String = "train-images-idx3-ubyte", labelsFileName: String = "train-labels-idx1-ubyte") {
+    public static func runMnist(imagesFileName: String = "train-images-idx3-ubyte", labelsFileName: String = "train-labels-idx1-ubyte") {
         run(imagesFileName: imagesFileName, labelsFileName: labelsFileName)
     }
 }
