@@ -18,10 +18,8 @@ import TensorFlow
 public enum Mnist {}
 
 extension Mnist {
-    public static func runMnist(
-        imagesFile: String = currentDirectory.appendingPathComponent("train-images-idx3-ubyte").path,
-        labelsFile: String = currentDirectory.appendingPathComponent("train-labels-idx1-ubyte").path) {
-        run(imagesFileName: imagesFileName, labelsFileName: labelsFileName)
+    public static func runMnist(imagesFile: String = "", labelsFile: String = "") {
+        run(imagesFile: imagesFile, labelsFile: labelsFile)
     }
 }
 
@@ -46,10 +44,8 @@ fileprivate func read(
 
 fileprivate func run(imagesFile: String, labelsFile: String) {
   // Get training data.
-  let currentDirectory =
-    URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
   let (images, numericLabels) = read(imagesFile: imagesFile,
-                                          labelsFile: labelsFile)
+                                     labelsFile: labelsFile)
   let labels = Tensor<Float>(oneHotAtIndices: numericLabels, depth: 10)
 
   // Hyper-parameters.
