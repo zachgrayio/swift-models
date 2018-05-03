@@ -18,7 +18,9 @@ import TensorFlow
 public enum Mnist {}
 
 extension Mnist {
-    public static func runMnist(imagesFileName: String = "train-images-idx3-ubyte", labelsFileName: String = "train-labels-idx1-ubyte") {
+    public static func runMnist(
+        imagesFile: String = currentDirectory.appendingPathComponent("train-images-idx3-ubyte").path,
+        labelsFile: String = currentDirectory.appendingPathComponent("train-labels-idx1-ubyte").path) {
         run(imagesFileName: imagesFileName, labelsFileName: labelsFileName)
     }
 }
@@ -42,17 +44,10 @@ fileprivate func read(
   return (imagesTensor.toDevice(), labelsTensor.toDevice())
 }
 
-fileprivate func run(imagesFileName: String, labelsFileName: String) {
-  // Get script directory. This is necessary for MNIST.swift to work when
-  // invoked from any directory.
+fileprivate func run(imagesFile: String, labelsFile: String) {
+  // Get training data.
   let currentDirectory =
     URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-
-  // Get training data.
-  let imagesFile =
-    currentDirectory.appendingPathComponent(imagesFileName).path
-  let labelsFile =
-    currentDirectory.appendingPathComponent(labelsFileName).path
   let (images, numericLabels) = read(imagesFile: imagesFile,
                                           labelsFile: labelsFile)
   let labels = Tensor<Float>(oneHotAtIndices: numericLabels, depth: 10)
